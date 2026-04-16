@@ -1,190 +1,365 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>李羿慧｜個人網站</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css" />
-    <script defer src="./site.js"></script>
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="header-left">
-        <div class="logo">YI HUI 個人網站</div>
-        <div class="page-indicator">首頁</div>
-      </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李羿慧的個人網站</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #edeff3; 
+            --menu-bg: #7b89aa;    
+            --bar-bg: #363f54;   
+            --text-dark: #2f374a;
+            --accent-blue: #363f54;
+            --white: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'LXGW WenKai Mono TC', sans-serif;
+        }
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
 
-      <nav class="top-nav" aria-label="主要導覽">
-        <a href="./index.html" aria-current="page">首頁</a>
-        <a href="./about.html">個人簡介</a>
-        <a href="./projects.html">作品/專題</a>
-        <a href="./test.html">測驗結果</a>
-        <a href="./mis.html">MIS 分析</a>
-        <a href="./resume.html">履歷</a>
-      </nav>
+        /* 導覽列 */
+        header {
+            width: 100%;
+            height: 50px;
+            background-color: var(--bar-bg); 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .page-indicator {
+            color: var(--white);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            flex-shrink: 0; 
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--white);
+            white-space: nowrap;
+        }
+        .menu-btn {
+            background: #363f54;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid white;
+            transition: var(--transition);
+        }
+        .menu-btn:hover {
+            background: #808dad;
+            transform: scale(1.05);
+        }
 
-      <div class="header-right">
-        <button class="menu-btn" data-action="toggle-menu" aria-label="開啟選單">
-          MENU ☰
-        </button>
-      </div>
+        /* 選單彈窗 */
+        .overlay {
+            position: fixed;
+            top: 75px;
+            right: 5%;
+            width: 250px;
+            background-color: var(--menu-bg);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .close-btn {
+            align-self: flex-end;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .nav-list {
+            list-style: none;
+            width: 100%;
+        }
+        .nav-list li { margin: 8px 0; }
+        .nav-list a {
+            display: block;
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .nav-list a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            padding-left: 20px;
+        }
+
+        /* 內容區塊 */
+        .content-section {
+            display: none;
+            padding: 110px 10% 60px;
+            min-height: 100vh;
+            animation: fadeIn 0.8s ease;
+        }
+        .content-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--accent-blue);
+            display: inline-block;
+        }
+
+        .card {
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-top: 30px;
+            line-height: 1.8;
+        }
+        /* 妳之前設定的卡片顏色 */
+        .card.color-1 { background-color: #cfd4e0; }
+        .card.color-2 { background-color: #b6bed0; }
+        .card.color-3 { background-color: #a8b1c7; }
+
+        /* 副標題與線條 */
+        .section-subtitle {
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+        .subtitle-line {
+            width: 300px;
+            border: 0;
+            border-top: 3px solid var(--accent-blue);
+            margin: 0 auto 30px;
+            border-radius: 2px;
+        }
+
+        /* 個人簡介的 Flex 佈局 */
+        .profile-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+        .profile-text { flex: 1; }
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--text-dark);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .test-img {
+            display: block;
+            margin: 40px auto;
+            max-width: 80%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .logo { display: none; }
+            .profile-card { flex-direction: column-reverse; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="page-indicator" id="pageTitle">歡迎光臨</div>
+        <div class="header-right">
+            <div class="logo">YI HUI 個人網站</div>
+            <div class="menu-wrapper">
+                <button class="menu-btn" onclick="toggleMenu()">MENU ☰</button>
+            </div>
+        </div>
     </header>
 
-    <nav class="overlay" id="navOverlay" aria-label="網站導覽">
-      <button class="close-btn" data-action="close-menu" aria-label="關閉選單">
-        ×
-      </button>
-      <ul class="nav-list">
-        <li><a href="./index.html" aria-current="page">首頁</a></li>
-        <li><a href="./about.html">個人簡介</a></li>
-        <li><a href="./projects.html">作品/專題</a></li>
-        <li><a href="./test.html">我的測驗結果</a></li>
-        <li><a href="./mis.html">MIS 工作分析</a></li>
-        <li><a href="./resume.html">求職履歷</a></li>
-      </ul>
-    </nav>
+    <div class="overlay" id="navOverlay">
+        <div class="close-btn" onclick="toggleMenu()">×</div>
+        <ul class="nav-list">
+            <li><a href="#" onclick="showSection('index')">首頁</a></li>
+            <li><a href="#" onclick="showSection('home')">個人簡介</a></li>
+            <li><a href="#" onclick="showSection('test-result')">我的測驗結果</a></li>
+            <li><a href="#" onclick="showSection('mis-analysis')">MIS工作分析</a></li>
+            <li><a href="#" onclick="showSection('resume')">求職履歷</a></li>
+        </ul>
+    </div>
 
-    <main>
-      <div class="container">
-        <section class="hero">
-          <div class="hero-copy">
-            <p class="hero-eyebrow">資管系學生｜MIS / ERP / 資料庫方向</p>
-            <h1 class="hero-title page-title">李羿慧</h1>
-            <p class="hero-subtitle">
-              我把「結構化的系統思維」與「重視體驗的呈現方式」結合起來，持續累積對企業流程與資訊系統的理解。
+    <section id="index" class="content-section active">
+        <h1>Welcome!</h1>
+        <div class="card color-1" style="text-align: center;">
+            <h2>歡迎來到李羿慧的個人網站</h2>
+            <p style="margin-top: 20px; font-size: 1.2rem;">
+                <br>
+                點擊右上角的 <b>MENU</b> 開始認識我!
             </p>
-
-            <div class="btn-row hero-cta">
-              <a class="btn" href="./resume.html">查看履歷</a>
-              <a class="btn secondary" href="mailto:alice2005921@gmail.com">Email 聯絡</a>
+            <div style="margin-top: 30px;">
+                <button onclick="showSection('home')" style="padding: 10px 25px; cursor: pointer; background: var(--bar-bg); color: white; border: none; border-radius: 5px;">了解更多關於我</button>
             </div>
+        </div>
+    </section>
 
-            <p class="hero-note">
-              想快速了解我做過什麼？先看 <a href="./projects.html">作品/專題</a>。
-            </p>
-          </div>
-
-          <div class="hero-media">
-            <div class="hero-photo" aria-label="個人照片">
-              <img src="./assets/簡介照片.jpg" alt="李羿慧照片" loading="eager" />
+    <section id="home" class="content-section">
+        <h1>個人簡介</h1>
+        <div class="card profile-card color-1">
+            <div class="profile-text">
+                <h2>基本資料</h2>
+                <p>姓名:李羿慧<br>系級:資管二B<br>學號:411312414<br>信箱:alice2005921@gmail.com</p>
             </div>
-          </div>
-        </section>
+            <div class="profile-photo-container">
+                <img src="1.jpg" alt="簡介照片" class="profile-photo">
+            </div> 
 
-        <section class="section">
-          <div class="section-header">
-            <p class="kicker">Proof</p>
-            <h2 class="section-title">我做過的事情（快速證據）</h2>
-            <p class="section-desc">
-              讓你不用猜：我把成果整理成「目標→做法→成果」，可以快速掃讀與判斷是否符合職務需求。
-            </p>
-          </div>
-          <div class="stack">
-            <section class="evidence">
-              <p class="meta">作品｜流程</p>
-              <h3 class="evidence-title">ERP 流程整理</h3>
-              <p class="lead">把流程、資料流與權限概念整理成可展示的頁面。</p>
-              <ul class="bullets">
-                <li>把「流程」拆成角色、狀態、資料欄位，讓內容可驗收</li>
-                <li>用一致結構呈現（目的 → 步驟 → 產出），讓人能快速掃讀</li>
-              </ul>
-              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
-                <a class="btn secondary" href="./projects.html">看作品/專題</a>
-              </div>
-            </section>
-
-            <section class="evidence">
-              <p class="meta">練習｜資料庫</p>
-              <h3 class="evidence-title">SQL 查詢框架</h3>
-              <p class="lead">用一致的解題步驟提升查詢正確性與可讀性。</p>
-              <ul class="bullets">
-                <li>先定義輸出欄位，再決定 JOIN/條件/分組（減少漏寫）</li>
-                <li>偏好可重用模板：命名、拆段與註解一致</li>
-              </ul>
-              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
-                <a class="btn secondary" href="./projects.html">看整理</a>
-              </div>
-            </section>
-
-            <section class="evidence">
-              <p class="meta">報告｜職務理解</p>
-              <h3 class="evidence-title">MIS 角色分析</h3>
-              <p class="lead">把面向、角色與技能拆解成可掃讀的重點。</p>
-              <ul class="bullets">
-                <li>用「穩定/安全/效率」整理 MIS 價值，不用背定義</li>
-                <li>把職位拆成常見工作面向，讓方向更具體</li>
-              </ul>
-              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
-                <a class="btn secondary" href="./mis.html">看分析</a>
-              </div>
-            </section>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-header">
-            <p class="kicker">Direction</p>
-            <h2 class="section-title">我想走的方向</h2>
-            <p class="section-desc">我把興趣與職務拆解後，聚焦在三個能長期累積的方向。</p>
-          </div>
-          <div class="stack">
-            <section class="evidence">
-              <h3 class="evidence-title">ERP / 流程</h3>
-              <ul class="bullets">
-                <li>理解企業流程，讓需求能落地成系統設定/功能</li>
-                <li>重視資料一致性、權限與跨模組串接</li>
-              </ul>
-            </section>
-            <section class="evidence">
-              <h3 class="evidence-title">資料庫 / SQL</h3>
-              <ul class="bullets">
-                <li>用結構化方式寫查詢，讓報表需求更可控</li>
-                <li>關注效能與正確性，建立可複用的模板</li>
-              </ul>
-            </section>
-            <section class="evidence">
-              <h3 class="evidence-title">MIS / 系統維運</h3>
-              <ul class="bullets">
-                <li>理解角色分工與維運重點，讓系統能穩定運作</li>
-                <li>把問題拆解、定位原因並提出可行的改善方案</li>
-              </ul>
-            </section>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-header">
-            <p class="kicker">Contact</p>
-            <h2 class="section-title">聯絡我</h2>
-            <p class="section-desc">如果你想了解更完整的作品細節或合作方式，歡迎直接聯絡。</p>
-          </div>
-          <section class="callout">
-            <div class="btn-row" style="justify-content: flex-start">
-              <a class="btn" href="mailto:alice2005921@gmail.com">寄信給我</a>
-              <a class="btn secondary" href="./resume.html">查看履歷</a>
             </div>
-            <p class="caption" style="text-align: left; margin-top: 10px">
-              Email：alice2005921@gmail.com
-            </p>
-          </section>
-        </section>
-      </div>
-    </main>
+        </div>
+        <h3 class="section-subtitle">自我介紹</h3>
+        <hr class="subtitle-line">
+            <div class="card color-2">
+                <p>我是李羿慧，目前就讀資管系，結合『細膩邏輯』 與『數位創意』的學習者。在Holland測驗中具備 C 與 A 的雙重特質，
+                擅長在規律的系統架構中找尋創新的解決方案。目前正致力於深耕ERP系統流程與資料庫管理技術，期許能成為企業數位轉型的關鍵助力。</p>
+    </section>
 
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <div class="small">© <span id="y"></span> 李羿慧</div>
-        <div class="small">Email：alice2005921@gmail.com</div>
-      </div>
-      <script>
-        document.getElementById("y").textContent = String(new Date().getFullYear());
-      </script>
-    </footer>
-  </body>
+    <section id="test-result" class="content-section">
+        <h1>興趣何倫碼測驗</h1>
+        <div class="card color-1">
+            <h3>Holland 興趣測驗將人與環境分成六大類型：R實作型、I研究型、A藝術型、S社會型、E企業型、C事務型</h3>
+        </div>
+        <h3 class="section-subtitle">我的Holland興趣測驗</h3>
+        <hr class="subtitle-line">
+        <div class="card color-2">
+            <h3>C事務型:「文書者」或「組織者」，個性謹慎、做事講求規矩和精確，喜歡在有明確規則的環境下工作</h3>
+            <h3>A藝術型:「創作者」，直覺敏閱、富有想像力與創造力</h3>
+        </div>
+        <img src="2.jpg" alt="興趣何倫碼" class="test-img">
+        <h3 class="section-subtitle">此類型最常從事的職業</h3>
+        <hr class="subtitle-line">
+        <img src="3.jpg" alt="職業類型" class="test-img">
+    </section>
+
+    <section id="mis-analysis" class="content-section">
+        <h1>MIS工作分析</h1>
+        <div class="card color-1">
+            <h2>MIS的工作可以概括為「確保資訊流的穩定、安全與高效」</h2>
+            <p>1.基礎設施管理 (Infrastructure):負責伺服器、網路設備、防火牆及儲存系統的建置與維護<br>
+               2.系統開發與維運 (Development & Maintenance):導入或開發企業內部軟體，如 ERP、CRM 或內部簽核系統 (BPM)<br>
+               3.資訊安全 (Information Security):防止駭客入侵、病毒防範、資安政策制定及定期進行資料備份<br>
+               4.技術支援 (User Support):處理員工的電腦硬體、軟體操作問題</p>
+        </div>
+        <h3 class="section-subtitle">MIS的職位分類</h3>
+        <hr class="subtitle-line">
+        <div class="card color-2">
+            <h4>細分為以下專業角色</h4>
+            <p>網管工程師:維護辦公室網路、VPN、伺服器穩定<br>系統分析師(SA):分析業務需求，設計系統架構<br>
+               程式設計師(SD):負責系統程式碼撰寫與 Bug 修復<br>資安工程師:監控異常流量、落實資安法規</p>
+        </div>
+        <h3 class="section-subtitle">我有興趣的MIS職位</h3> 
+        <hr class="subtitle-line">
+        <div class="card color-3">
+            <h4>系統開發與資料管理類</h4>
+            <p>1.ERP工程師<br>工作內容:維護企業核心系統，處理訂單、財務、庫存的流程自動化<br>
+               2.資料庫管理員<br>工作內容:專精於 SQL 語法與資料庫調優，確保數據存取既快又準<br>
+               3.全端/後端工程師<br>工作內容:針對公司內部需求，開發客製化的簽核系統或管理網頁</p>
+        </div>
+    </section>
+
+    <section id="resume" class="content-section">
+        <h1>求職履歷</h1>
+        <h3 class="section-subtitle">我未來想從事的工作 : ERP工程師</h3>
+        <hr class="subtitle-line">
+        <div class="card color-1">
+            <h3>原因</h3>
+            <p>作為一名具備C(事務型)特質的開發者,對ERP系統所需的邏輯嚴謹性有著近乎苛求的堅持，確保企業數據的絕對準確;<br>
+               同時，我的A(藝術型)靈魂讓我拒絕平庸的設計，我致力於打造兼具『穩定結構』與『人性化體驗』的資訊系統，讓管理工具不再只是冰冷的程式碼，而是提升企業美學與效率的藝術品。</p>
+        </div>
+        <div class="card color-2">
+             <h3>工作內容</h3>
+            <p>工作核心在於將企業營運邏輯轉化為穩定的資訊系統。在技術執行維度上，負責ERP系統的安裝導入、權限設定與資料庫效能調教，
+                並透過SQL或程式語言進行功能的客製化開發，確保財務、採購與庫存等模組間的資料傳輸具備高度精確性；將後端龐雜的數據結構轉化為直觀、具設計感的視覺化圖表，
+                並針對系統操作介面進行優化，以降低員工的使用難度並提升作業效率。</p>
+        </div>
+        <div class="card color-3">
+            <h3>未來規劃</h3>
+            <p>預計以ERP工程師為起點，初期深耕資料庫管理與系統維運，特質確保營運數據的精確穩定；中期朝向系統分析師(SA)或商業智慧(BI)領域發展，透過數據視覺化與UI/UX優化提升管理效率。
+                長期目標是融合資訊技術與管理思維，晉升為數位轉型顧問或資訊經理，協助企業在穩定的數位架構上，進行具備美感與競爭力的商業策略轉型。</p>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            const overlay = document.getElementById('navOverlay');
+            overlay.classList.toggle('active');
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+            
+            document.getElementById(sectionId).classList.add('active');
+            
+            // 更新標題對照表，加入了 index
+            const titleMap = {
+                'index': '歡迎光臨',
+                'home': '個人簡介',
+                'test-result': '我的測驗結果',
+                'mis-analysis': 'MIS工作分析',
+                'resume': '求職履歷'
+            };
+            document.getElementById('pageTitle').innerText = titleMap[sectionId];
+            
+            const overlay = document.getElementById('navOverlay');
+            overlay.classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
 </html>
