@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>資料庫作品｜ERD + SQLite</title>
+    <link rel="stylesheet" href="../../styles.css" />
+    <script defer src="../../site.js"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "neutral",
+      });
+    </script>
+    <style>
+      .mermaid {
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 24px;
+        padding: 16px;
+        overflow: auto;
+      }
+      code,
+      pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+      .codebox {
+        border-radius: 18px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.92);
+        padding: 14px;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-left">
+        <div class="logo">YI HUI 個人網站</div>
+        <div class="page-indicator">資料庫作品</div>
+      </div>
+      <nav class="top-nav" aria-label="主要導覽">
+        <a href="../../index.html">首頁</a>
+        <a href="../../projects.html" aria-current="page">作品/專題</a>
+        <a href="../../resume.html">履歷</a>
+      </nav>
+      <div class="header-right">
+        <button class="menu-btn" data-action="toggle-menu" aria-label="開啟選單">
+          MENU ☰
+        </button>
+      </div>
+    </header>
+
+    <nav class="overlay" id="navOverlay" aria-label="網站導覽">
+      <button class="close-btn" data-action="close-menu" aria-label="關閉選單">
+        ×
+      </button>
+      <ul class="nav-list">
+        <li><a href="../../index.html">首頁</a></li>
+        <li><a href="../../projects.html" aria-current="page">作品/專題</a></li>
+        <li><a href="../../resume.html">履歷</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="container">
+        <h1 class="page-title">ERD + SQLite：簽核領用與庫存</h1>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Overview</p>
+            <h2 class="section-title">我想展示什麼</h2>
+            <p class="section-desc">
+              用 ERD 表達資料關聯與正規化思路，並提供可執行的 SQLite schema 與報表查詢，讓「設計」有可驗證的輸出。
+            </p>
+          </div>
+
+          <div class="split">
+            <section class="panel callout">
+              <h3 class="panel-title">設計重點</h3>
+              <ul class="list">
+                <li><span>單據/明細分離（支持多品項）</span></li>
+                <li><span>簽核紀錄獨立（可追溯）</span></li>
+                <li><span>庫存異動事件表（不可改，只能反向修正）</span></li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">作品檔案</h3>
+              <ul class="list">
+                <li><span><a href="./README.md">README</a></span></li>
+                <li><span><a href="./erd.md">ERD 說明（原始 md）</a></span></li>
+                <li><span><a href="./schema.sql">schema.sql</a></span></li>
+                <li><span><a href="./queries.sql">queries.sql</a></span></li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 14px">
+                <a class="btn" href="./schema.sql">看 schema</a>
+                <a class="btn secondary" href="./queries.sql">看報表查詢</a>
+              </div>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">如何執行</h3>
+              <div class="codebox" aria-label="執行指令">
+                <pre style="margin: 0">sqlite3 demo.db &lt; schema.sql
+sqlite3 demo.db &lt; queries.sql</pre>
+              </div>
+              <p class="caption" style="text-align: left; margin-top: 10px">
+                我已在本機測試可正常輸出：申請總覽、庫存、排行、核准耗時。
+              </p>
+            </section>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">ERD</p>
+            <h2 class="section-title">資料結構（可視覺化）</h2>
+            <p class="section-desc">用 Mermaid 渲染 ERD，直接在作品頁呈現。</p>
+          </div>
+          <pre class="mermaid">
+erDiagram
+  departments ||--o{ users : has
+  users ||--o{ issue_requests : creates
+  departments ||--o{ issue_requests : owns
+  issue_requests ||--o{ issue_request_items : contains
+  products ||--o{ issue_request_items : requested
+  issue_requests ||--o{ approval_logs : logs
+  users ||--o{ approval_logs : acts
+  products ||--o{ stock_moves : moves
+  issue_requests ||--o{ stock_moves : fulfills
+          </pre>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Reports</p>
+            <h2 class="section-title">我做的報表查詢（示例）</h2>
+            <p class="section-desc">下面列出查詢主題；完整 SQL 在 `queries.sql`。</p>
+          </div>
+          <div class="split">
+            <section class="panel">
+              <h3 class="panel-title">申請總覽</h3>
+              <ul class="list">
+                <li><span>狀態、申請人、部門、用途、建立日</span></li>
+                <li><span>可用於主管/倉管待辦列表</span></li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">庫存與低庫存</h3>
+              <ul class="list">
+                <li><span>用異動加總算 on-hand</span></li>
+                <li><span>門檻提醒（<= 5）</span></li>
+              </ul>
+            </section>
+            <section class="panel callout">
+              <h3 class="panel-title">效率指標</h3>
+              <ul class="list">
+                <li><span>申請→核准耗時（天）</span></li>
+                <li><span>可延伸：申請→出庫耗時、部門比較</span></li>
+              </ul>
+            </section>
+          </div>
+
+          <div class="btn-row" style="justify-content: flex-start; margin-top: 18px">
+            <a class="btn" href="../../projects.html">回作品/專題</a>
+            <a class="btn secondary" href="../../index.html">回首頁</a>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
+

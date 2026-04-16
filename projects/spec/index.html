@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>需求規格作品｜簽核 + 庫存領用</title>
+    <link rel="stylesheet" href="../../styles.css" />
+    <script defer src="../../site.js"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+    </script>
+    <style>
+      .mermaid {
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 24px;
+        padding: 16px;
+        overflow: auto;
+      }
+      .codebox {
+        border-radius: 18px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.92);
+        padding: 14px;
+        overflow: auto;
+      }
+      code,
+      pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-left">
+        <div class="logo">YI HUI 個人網站</div>
+        <div class="page-indicator">需求規格作品</div>
+      </div>
+      <nav class="top-nav" aria-label="主要導覽">
+        <a href="../../index.html">首頁</a>
+        <a href="../../projects.html" aria-current="page">作品/專題</a>
+        <a href="../../resume.html">履歷</a>
+      </nav>
+      <div class="header-right">
+        <button class="menu-btn" data-action="toggle-menu" aria-label="開啟選單">
+          MENU ☰
+        </button>
+      </div>
+    </header>
+
+    <nav class="overlay" id="navOverlay" aria-label="網站導覽">
+      <button class="close-btn" data-action="close-menu" aria-label="關閉選單">
+        ×
+      </button>
+      <ul class="nav-list">
+        <li><a href="../../index.html">首頁</a></li>
+        <li><a href="../../projects.html" aria-current="page">作品/專題</a></li>
+        <li><a href="../../resume.html">履歷</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="container">
+        <h1 class="page-title">內部簽核 + 庫存領用｜需求規格</h1>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Why</p>
+            <h2 class="section-title">我想解決的問題</h2>
+            <p class="section-desc">
+              我用「規格」做成可交付成果：把需求拆成流程、資料、權限、例外與驗收標準，降低返工、提升溝通效率。
+            </p>
+          </div>
+
+          <div class="split">
+            <section class="panel callout">
+              <h3 class="panel-title">痛點</h3>
+              <ul class="list">
+                <li><span>權責不清：誰核准、誰領用、誰出庫不一致</span></li>
+                <li><span>庫存不準：盤點才發現缺料/多料</span></li>
+                <li><span>追溯困難：找不到領用原因與使用者</span></li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">目標</h3>
+              <ul class="list">
+                <li><span>簽核流程確保權責清楚</span></li>
+                <li><span>庫存異動確保資料一致</span></li>
+                <li><span>報表讓管理可視化</span></li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 14px">
+                <a class="btn" href="./spec.md">開啟完整規格（md）</a>
+                <a class="btn secondary" href="../approval-demo/index.html">開啟流程 Demo</a>
+              </div>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">可搭配作品</h3>
+              <ul class="list">
+                <li><span><a href="../db-erd/index.html">ERD + SQLite 報表作品</a></span></li>
+                <li><span><a href="../sql-report/index.html">SQL 採購/庫存報表作品</a></span></li>
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Flow</p>
+            <h2 class="section-title">核心流程（可視覺化）</h2>
+            <p class="section-desc">用狀態流轉把流程定義清楚，方便驗收。</p>
+          </div>
+          <pre class="mermaid">
+flowchart TD
+  A[建立申請] --> B[PENDING_APPROVAL]
+  B --> C{主管決策}
+  C -- 退回 --> D[REJECTED\n填寫原因] --> A
+  C -- 核准 --> E[APPROVED]
+  E --> F{倉管出庫}
+  F -- 庫存不足 --> G[阻擋出庫\n提示補貨/調整]
+  F -- 成功 --> H[FULFILLED\n寫入庫存異動]
+          </pre>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Acceptance</p>
+            <h2 class="section-title">驗收與測試（摘要）</h2>
+            <p class="section-desc">我在規格中把「什麼叫做完成」寫清楚，避免做完但不可用。</p>
+          </div>
+          <div class="split">
+            <section class="panel">
+              <h3 class="panel-title">驗收標準</h3>
+              <ul class="list">
+                <li><span>核准/退回結果能回寫到申請人列表</span></li>
+                <li><span>只有已核准的申請可出庫，且會正確扣庫存</span></li>
+                <li><span>每筆出庫都可追溯到申請單、簽核與出庫人</span></li>
+              </ul>
+            </section>
+            <section class="panel callout">
+              <h3 class="panel-title">測試清單</h3>
+              <ul class="list">
+                <li><span>庫存不足/超量/品項停用等例外</span></li>
+                <li><span>非本部門主管不可核准</span></li>
+                <li><span>重複出庫不可（避免扣兩次）</span></li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">規格檔案</h3>
+              <div class="codebox">
+                <pre style="margin: 0">- spec.md（完整規格）
+- README.md（作品說明）</pre>
+              </div>
+            </section>
+          </div>
+
+          <div class="btn-row" style="justify-content: flex-start; margin-top: 18px">
+            <a class="btn" href="../../projects.html">回作品/專題</a>
+            <a class="btn secondary" href="../../index.html">回首頁</a>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
+

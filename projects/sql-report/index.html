@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SQL 報表作品｜採購/庫存</title>
+    <link rel="stylesheet" href="../../styles.css" />
+    <script defer src="../../site.js"></script>
+    <style>
+      code,
+      pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+      .codebox {
+        border-radius: 18px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.92);
+        padding: 14px;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-left">
+        <div class="logo">YI HUI 個人網站</div>
+        <div class="page-indicator">SQL 作品</div>
+      </div>
+      <nav class="top-nav" aria-label="主要導覽">
+        <a href="../../index.html">首頁</a>
+        <a href="../../projects.html" aria-current="page">作品/專題</a>
+        <a href="../../resume.html">履歷</a>
+      </nav>
+      <div class="header-right">
+        <button class="menu-btn" data-action="toggle-menu" aria-label="開啟選單">
+          MENU ☰
+        </button>
+      </div>
+    </header>
+
+    <nav class="overlay" id="navOverlay" aria-label="網站導覽">
+      <button class="close-btn" data-action="close-menu" aria-label="關閉選單">
+        ×
+      </button>
+      <ul class="nav-list">
+        <li><a href="../../index.html">首頁</a></li>
+        <li><a href="../../projects.html" aria-current="page">作品/專題</a></li>
+        <li><a href="../../resume.html">履歷</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="container">
+        <h1 class="page-title">SQL 報表作品：採購/庫存</h1>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Overview</p>
+            <h2 class="section-title">這個作品是什麼</h2>
+            <p class="section-desc">
+              我用 SQLite 建立小型採購/庫存資料模型與範例資料，並撰寫常見管理報表查詢（可直接執行）。
+            </p>
+          </div>
+
+          <div class="split">
+            <section class="panel callout">
+              <h3 class="panel-title">我想展示的能力</h3>
+              <ul class="list">
+                <li><span>把流程概念轉成可查詢的資料結構</span></li>
+                <li><span>用 JOIN/彙總/Top-N 做管理報表</span></li>
+                <li><span>查詢命名、拆解與註解保持可讀性</span></li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">作品檔案</h3>
+              <ul class="list">
+                <li><span><a href="./README.md">README</a></span></li>
+                <li><span><a href="./schema.sql">schema.sql</a></span></li>
+                <li><span><a href="./queries.sql">queries.sql</a></span></li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 14px">
+                <a class="btn" href="./queries.sql">看查詢</a>
+                <a class="btn secondary" href="../dashboard/index.html">看前端儀表板</a>
+              </div>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">如何執行</h3>
+              <div class="codebox" aria-label="執行指令">
+                <pre style="margin: 0">sqlite3 demo.db &lt; schema.sql
+sqlite3 demo.db &lt; queries.sql</pre>
+              </div>
+              <p class="caption" style="text-align: left; margin-top: 10px">
+                我已測試可正常輸出：採購總覽、月彙總、Top-N、庫存、低庫存、供應商統計。
+              </p>
+            </section>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Report Topics</p>
+            <h2 class="section-title">報表主題（摘要）</h2>
+            <p class="section-desc">完整 SQL 請看 `queries.sql`，這裡列出能展示的報表面向。</p>
+          </div>
+          <div class="split">
+            <section class="panel">
+              <h3 class="panel-title">採購</h3>
+              <ul class="list">
+                <li><span>採購單總覽：金額/狀態/供應商</span></li>
+                <li><span>每月採購金額與單數</span></li>
+                <li><span>Top-N 品項採購金額</span></li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">庫存</h3>
+              <ul class="list">
+                <li><span>即時庫存（異動加總）</span></li>
+                <li><span>低庫存提醒（門檻）</span></li>
+              </ul>
+            </section>
+            <section class="panel callout">
+              <h3 class="panel-title">供應商</h3>
+              <ul class="list">
+                <li><span>供應商採購次數與金額</span></li>
+                <li><span>可延伸：交期準時率、退貨率</span></li>
+              </ul>
+            </section>
+          </div>
+
+          <div class="btn-row" style="justify-content: flex-start; margin-top: 18px">
+            <a class="btn" href="../../projects.html">回作品/專題</a>
+            <a class="btn secondary" href="../../index.html">回首頁</a>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
+

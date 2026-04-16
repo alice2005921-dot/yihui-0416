@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>小型報表儀表板｜前端作品</title>
+    <link rel="stylesheet" href="../../styles.css" />
+    <style>
+      .dash {
+        margin-top: 18px;
+      }
+      .dash-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      @media (max-width: 860px) {
+        .dash-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .kpi {
+        padding: 18px;
+        border-radius: 24px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-soft);
+      }
+      .kpi .label {
+        color: rgba(0, 0, 0, 0.58);
+        font-size: 0.92rem;
+        letter-spacing: 0.2px;
+      }
+      .kpi .value {
+        font-size: 1.8rem;
+        font-weight: 750;
+        margin-top: 8px;
+      }
+      .controls {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 18px 0;
+      }
+      select,
+      input[type="search"] {
+        padding: 10px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: rgba(255, 255, 255, 0.92);
+        font-size: 1rem;
+      }
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        overflow: hidden;
+        border-radius: 18px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.92);
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 12px 12px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        font-size: 0.98rem;
+      }
+      th {
+        color: rgba(0, 0, 0, 0.62);
+        font-weight: 650;
+        background: rgba(0, 0, 0, 0.02);
+      }
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      .tag {
+        display: inline-flex;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(0, 113, 227, 0.1);
+        border: 1px solid rgba(0, 113, 227, 0.18);
+        font-size: 0.9rem;
+        color: rgba(0, 0, 0, 0.82);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <h1 class="page-title">小型報表儀表板</h1>
+        <p class="section-desc">
+          這是可直接展示的前端作品：用純 HTML/CSS/JS 做「可篩選的報表表格＋KPI」，展示資訊整理與呈現能力。
+        </p>
+
+        <section class="dash">
+          <div class="dash-grid" aria-label="KPI">
+            <div class="kpi">
+              <div class="label">本月採購金額</div>
+              <div class="value" id="kpiAmount">—</div>
+              <div class="caption" style="text-align: left; margin-top: 6px">
+                以 2026-04 範例資料計算
+              </div>
+            </div>
+            <div class="kpi">
+              <div class="label">本月採購單數</div>
+              <div class="value" id="kpiCount">—</div>
+              <div class="caption" style="text-align: left; margin-top: 6px">
+                排除 CANCELLED
+              </div>
+            </div>
+            <div class="kpi">
+              <div class="label">低庫存品項</div>
+              <div class="value" id="kpiLow">—</div>
+              <div class="caption" style="text-align: left; margin-top: 6px">
+                門檻 ≤ 5（可調整）
+              </div>
+            </div>
+          </div>
+
+          <div class="controls" aria-label="篩選條件">
+            <label>
+              類別
+              <select id="category">
+                <option value="ALL">全部</option>
+                <option value="周邊">周邊</option>
+                <option value="設備">設備</option>
+              </select>
+            </label>
+            <label>
+              供應商
+              <select id="supplier">
+                <option value="ALL">全部</option>
+                <option value="明日供應股份有限公司">明日供應股份有限公司</option>
+                <option value="藍圖科技材料行">藍圖科技材料行</option>
+                <option value="北辰零件批發">北辰零件批發</option>
+              </select>
+            </label>
+            <label>
+              搜尋
+              <input id="q" type="search" placeholder="輸入 SKU 或品名" />
+            </label>
+            <button class="btn secondary" id="reset">重設</button>
+          </div>
+
+          <section class="panel">
+            <h3 class="panel-title">採購明細（範例）</h3>
+            <p class="caption" style="text-align: left">
+              你可以用上方篩選條件，體驗「可掃讀、可操作」的報表呈現。
+            </p>
+            <div style="margin-top: 12px; overflow: auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>日期</th>
+                    <th>供應商</th>
+                    <th>SKU</th>
+                    <th>品名</th>
+                    <th>類別</th>
+                    <th>數量</th>
+                    <th>小計</th>
+                  </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <div class="btn-row" style="justify-content: flex-start; margin-top: 18px">
+          <a class="btn" href="../../projects.html">回作品/專題</a>
+          <a class="btn secondary" href="../../index.html">回首頁</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const data = [
+        {
+          date: "2026-03-01",
+          supplier: "明日供應股份有限公司",
+          sku: "KB-001",
+          name: "機械鍵盤 87 鍵",
+          category: "周邊",
+          qty: 10,
+          unitCost: 1800,
+          status: "RECEIVED",
+        },
+        {
+          date: "2026-03-01",
+          supplier: "明日供應股份有限公司",
+          sku: "MS-010",
+          name: "無線滑鼠",
+          category: "周邊",
+          qty: 20,
+          unitCost: 650,
+          status: "RECEIVED",
+        },
+        {
+          date: "2026-03-12",
+          supplier: "藍圖科技材料行",
+          sku: "HB-200",
+          name: "USB Hub 8 埠",
+          category: "周邊",
+          qty: 12,
+          unitCost: 950,
+          status: "RECEIVED",
+        },
+        {
+          date: "2026-03-12",
+          supplier: "藍圖科技材料行",
+          sku: "CM-110",
+          name: "螢幕 27 吋",
+          category: "設備",
+          qty: 6,
+          unitCost: 6800,
+          status: "RECEIVED",
+        },
+        {
+          date: "2026-04-02",
+          supplier: "明日供應股份有限公司",
+          sku: "CP-500",
+          name: "公司用筆記型電腦",
+          category: "設備",
+          qty: 3,
+          unitCost: 27900,
+          status: "APPROVED",
+        },
+        {
+          date: "2026-04-02",
+          supplier: "明日供應股份有限公司",
+          sku: "CM-110",
+          name: "螢幕 27 吋",
+          category: "設備",
+          qty: 4,
+          unitCost: 6900,
+          status: "APPROVED",
+        },
+        {
+          date: "2026-04-07",
+          supplier: "北辰零件批發",
+          sku: "MS-010",
+          name: "無線滑鼠",
+          category: "周邊",
+          qty: 10,
+          unitCost: 660,
+          status: "DRAFT",
+        },
+        {
+          date: "2026-04-10",
+          supplier: "藍圖科技材料行",
+          sku: "KB-001",
+          name: "機械鍵盤 87 鍵",
+          category: "周邊",
+          qty: 5,
+          unitCost: 1750,
+          status: "CANCELLED",
+        },
+      ];
+
+      const inventory = [
+        { sku: "KB-001", onHand: 8 },
+        { sku: "MS-010", onHand: 17 },
+        { sku: "HB-200", onHand: 8 },
+        { sku: "CM-110", onHand: 5 },
+        { sku: "CP-500", onHand: 0 },
+      ];
+
+      const els = {
+        category: document.getElementById("category"),
+        supplier: document.getElementById("supplier"),
+        q: document.getElementById("q"),
+        rows: document.getElementById("rows"),
+        reset: document.getElementById("reset"),
+        kpiAmount: document.getElementById("kpiAmount"),
+        kpiCount: document.getElementById("kpiCount"),
+        kpiLow: document.getElementById("kpiLow"),
+      };
+
+      const fmt = new Intl.NumberFormat("zh-Hant-TW");
+
+      function getSubtotal(row) {
+        return row.qty * row.unitCost;
+      }
+
+      function render() {
+        const cat = els.category.value;
+        const sup = els.supplier.value;
+        const q = els.q.value.trim().toLowerCase();
+
+        const rows = data.filter((r) => {
+          if (cat !== "ALL" && r.category !== cat) return false;
+          if (sup !== "ALL" && r.supplier !== sup) return false;
+          if (q) {
+            const hay = `${r.sku} ${r.name}`.toLowerCase();
+            if (!hay.includes(q)) return false;
+          }
+          return true;
+        });
+
+        els.rows.innerHTML = rows
+          .map((r) => {
+            const subtotal = getSubtotal(r);
+            const statusTag =
+              r.status === "CANCELLED"
+                ? `<span class="tag" style="background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1)">CANCELLED</span>`
+                : `<span class="tag">${r.status}</span>`;
+            return `<tr>
+              <td>${r.date}</td>
+              <td>${r.supplier}</td>
+              <td>${r.sku}</td>
+              <td>${r.name}</td>
+              <td>${r.category}</td>
+              <td>${fmt.format(r.qty)}</td>
+              <td>${fmt.format(subtotal)} 元 ${statusTag}</td>
+            </tr>`;
+          })
+          .join("");
+
+        // KPI：用 2026-04 範例
+        const month = "2026-04";
+        const monthRows = data.filter(
+          (r) => r.date.startsWith(month) && r.status !== "CANCELLED"
+        );
+        const amount = monthRows.reduce((acc, r) => acc + getSubtotal(r), 0);
+        const poCount = new Set(monthRows.map((r) => `${r.date}|${r.supplier}`)).size;
+
+        const lowCount = inventory.filter((x) => x.onHand <= 5).length;
+
+        els.kpiAmount.textContent = `${fmt.format(amount)} 元`;
+        els.kpiCount.textContent = String(poCount);
+        els.kpiLow.textContent = String(lowCount);
+      }
+
+      function bind() {
+        els.category.addEventListener("change", render);
+        els.supplier.addEventListener("change", render);
+        els.q.addEventListener("input", render);
+        els.reset.addEventListener("click", () => {
+          els.category.value = "ALL";
+          els.supplier.value = "ALL";
+          els.q.value = "";
+          render();
+        });
+      }
+
+      bind();
+      render();
+    </script>
+  </body>
+</html>
+

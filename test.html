@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>李羿慧｜我的測驗結果</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./site.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-left">
+        <div class="logo">YI HUI 個人網站</div>
+        <div class="page-indicator">我的測驗結果</div>
+      </div>
+
+      <nav class="top-nav" aria-label="主要導覽">
+        <a href="./index.html">首頁</a>
+        <a href="./about.html">個人簡介</a>
+        <a href="./projects.html">作品/專題</a>
+        <a href="./test.html" aria-current="page">測驗結果</a>
+        <a href="./mis.html">MIS 分析</a>
+        <a href="./resume.html">履歷</a>
+      </nav>
+
+      <div class="header-right">
+        <button class="menu-btn" data-action="toggle-menu" aria-label="開啟選單">
+          MENU ☰
+        </button>
+      </div>
+    </header>
+
+    <nav class="overlay" id="navOverlay" aria-label="網站導覽">
+      <button class="close-btn" data-action="close-menu" aria-label="關閉選單">
+        ×
+      </button>
+      <ul class="nav-list">
+        <li><a href="./index.html">首頁</a></li>
+        <li><a href="./about.html">個人簡介</a></li>
+        <li><a href="./projects.html">作品/專題</a></li>
+        <li><a href="./test.html" aria-current="page">我的測驗結果</a></li>
+        <li><a href="./mis.html">MIS 工作分析</a></li>
+        <li><a href="./resume.html">求職履歷</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="container">
+        <h1 class="page-title">興趣何倫碼測驗</h1>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Overview</p>
+            <h2 class="section-title">這份測驗在看什麼</h2>
+            <p class="section-desc">
+              Holland 興趣測驗將人與環境分成六大類型（RIASEC）。我在這一頁用最短的方式整理：我的結果重點＋常見職涯參考。
+            </p>
+          </div>
+
+          <div class="stack">
+            <section class="callout">
+              <h3 class="evidence-title">我的結果重點</h3>
+              <ul class="bullets">
+                <li><strong>C 事務型</strong>：重視規則與精確，適合在有明確流程/制度的環境中工作</li>
+                <li><strong>A 藝術型</strong>：直覺敏銳，重視創造力與表達，喜歡把想法轉成可被看見的成果</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn secondary" href="./mis.html">延伸：MIS 分析</a>
+                <a class="btn" href="./resume.html">看履歷</a>
+              </div>
+            </section>
+
+            <section class="evidence">
+              <h3 class="evidence-title">測驗圖表</h3>
+              <figure>
+                <img src="./assets/興趣何倫碼.jpg" alt="興趣何倫碼測驗結果" class="test-img" />
+              </figure>
+              <p class="caption">圖一：我的 Holland 興趣何倫碼測驗結果</p>
+            </section>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Insight</p>
+            <h2 class="section-title">我怎麼把結果用在職涯選擇</h2>
+            <p class="section-desc">
+              測驗不是貼標籤，而是幫我把「喜歡的工作方式」變成可採取的策略：選環境、選角色、選學習方向。
+            </p>
+          </div>
+          <div class="stack">
+            <section class="callout">
+              <h3 class="evidence-title">對應到我適合的工作方式</h3>
+              <ul class="bullets">
+                <li><strong>清楚規則</strong>：流程與規格明確、可驗收（偏 C）</li>
+                <li><strong>可創造</strong>：能把資訊呈現得更好用、更好懂（偏 A）</li>
+                <li><strong>可累積</strong>：作品/報告可持續迭代、逐步變強</li>
+              </ul>
+            </section>
+
+            <section class="evidence">
+              <h3 class="evidence-title">下一步學習清單（可替換）</h3>
+              <ul class="bullets">
+                <li>SQL：JOIN、子查詢、彙總報表（每週固定練 2–3 題）</li>
+                <li>ERP：採購/庫存/財會模組概念（把流程畫出來）</li>
+                <li>系統分析：用例/流程/資料欄位/驗收條件（做成模板）</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn secondary" href="./projects.html">看作品/專題</a>
+              </div>
+            </section>
+
+            <section class="evidence">
+              <h3 class="evidence-title">面試可用的一句話</h3>
+              <p class="lead">
+                我喜歡在有清楚流程與規則的環境中把事情做準，同時也會把資訊整理成好理解的呈現方式，提升使用者效率。
+              </p>
+            </section>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Reference</p>
+            <h2 class="section-title">常見職業類型</h2>
+            <p class="section-desc">把結果對照到職涯方向時，可以從常見的職業分類快速找到相近領域。</p>
+          </div>
+
+          <div class="stack">
+            <section class="evidence">
+              <h3 class="evidence-title">對我有幫助的看法</h3>
+              <ul class="bullets">
+                <li>用「我喜歡的工作方式」去選擇環境與角色，而不是只看職稱</li>
+                <li>把特質轉成能力：流程理解、資料正確性、呈現清楚</li>
+                <li>用作品/專題累積證據，讓方向更具體</li>
+              </ul>
+            </section>
+
+            <section class="evidence">
+              <h3 class="evidence-title">職業圖表</h3>
+              <figure>
+                <img src="./assets/職業類型.jpg" alt="常見職業類型" class="test-img" />
+              </figure>
+              <p class="caption">圖二：此類型最常從事的職業</p>
+            </section>
+          </div>
+        </section>
+
+        <div class="btn-row">
+          <a class="btn" href="./mis.html">下一頁：MIS 工作分析</a>
+          <a class="btn secondary" href="./about.html">回到個人簡介</a>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="small">© <span id="y"></span> 李羿慧</div>
+        <div class="small"><a href="./index.html">回首頁</a></div>
+      </div>
+      <script>
+        document.getElementById("y").textContent = String(new Date().getFullYear());
+      </script>
+    </footer>
+  </body>
+</html>

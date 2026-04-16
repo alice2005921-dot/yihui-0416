@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>李羿慧｜作品與專題</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./site.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-left">
+        <div class="logo">YI HUI 個人網站</div>
+        <div class="page-indicator">作品與專題</div>
+      </div>
+
+      <nav class="top-nav" aria-label="主要導覽">
+        <a href="./index.html">首頁</a>
+        <a href="./about.html">個人簡介</a>
+        <a href="./projects.html" aria-current="page">作品/專題</a>
+        <a href="./test.html">測驗結果</a>
+        <a href="./mis.html">MIS 分析</a>
+        <a href="./resume.html">履歷</a>
+      </nav>
+
+      <div class="header-right">
+        <button class="menu-btn" data-action="toggle-menu" aria-label="開啟選單">
+          MENU ☰
+        </button>
+      </div>
+    </header>
+
+    <nav class="overlay" id="navOverlay" aria-label="網站導覽">
+      <button class="close-btn" data-action="close-menu" aria-label="關閉選單">
+        ×
+      </button>
+      <ul class="nav-list">
+        <li><a href="./index.html">首頁</a></li>
+        <li><a href="./about.html">個人簡介</a></li>
+        <li><a href="./projects.html" aria-current="page">作品/專題</a></li>
+        <li><a href="./test.html">我的測驗結果</a></li>
+        <li><a href="./mis.html">MIS 工作分析</a></li>
+        <li><a href="./resume.html">求職履歷</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="container">
+        <h1 class="page-title">作品與專題</h1>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Proof</p>
+            <h2 class="section-title">我做過的事情</h2>
+            <p class="section-desc">
+              這裡是我「真的可展示」的作品：包含可執行的 SQL 報表、可閱讀的需求規格，以及可互動的前端小作品。
+            </p>
+          </div>
+
+          <nav class="toc" aria-label="作品目錄">
+            <a href="#sql-report">SQL 報表</a>
+            <a href="#spec">需求規格</a>
+            <a href="#dashboard">前端儀表板</a>
+            <a href="#erp-flow">ERP 流程</a>
+            <a href="#db-erd">ERD + SQLite</a>
+            <a href="#approval-demo">簽核 Demo</a>
+            <a href="#site">本網站</a>
+          </nav>
+
+          <div class="stack">
+            <section class="evidence" id="sql-report">
+              <p class="meta">作品｜SQL（可執行）</p>
+              <div class="tags" aria-label="標籤">
+                <span class="tag">SQL</span>
+                <span class="tag">SQLite</span>
+                <span class="tag">報表</span>
+                <span class="tag">JOIN</span>
+              </div>
+              <h3 class="evidence-title">SQL 報表作品：採購/庫存（SQLite）</h3>
+              <p class="lead">
+                建立小型資料模型與範例資料，撰寫常見管理報表查詢：月彙總、Top-N、低庫存提醒、供應商統計。
+              </p>
+              <ul class="bullets">
+                <li>重點：資料結構、JOIN、分組彙總、可讀性</li>
+                <li>產出：`schema.sql`、`queries.sql`、`README`</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn" href="./projects/sql-report/index.html">開啟作品</a>
+                <a class="btn secondary" href="./projects/sql-report/queries.sql">看查詢</a>
+              </div>
+            </section>
+
+            <section class="evidence" id="spec">
+              <p class="meta">作品｜規格（可閱讀）</p>
+              <div class="tags" aria-label="標籤">
+                <span class="tag">需求規格</span>
+                <span class="tag">流程</span>
+                <span class="tag">權限</span>
+                <span class="tag">驗收</span>
+              </div>
+              <h3 class="evidence-title">需求規格作品：簽核 + 庫存領用</h3>
+              <p class="lead">
+                把需求拆成流程、資料、權限、例外情境與驗收標準，形成可交付規格文件（含測試清單）。
+              </p>
+              <ul class="bullets">
+                <li>重點：可驗收、可追溯、資料一致性</li>
+                <li>產出：`spec.md`、測試清單</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn" href="./projects/spec/index.html">開啟作品</a>
+                <a class="btn secondary" href="./projects/spec/README.md">閱讀說明</a>
+              </div>
+            </section>
+
+            <section class="evidence" id="dashboard">
+              <p class="meta">作品｜前端（可互動）</p>
+              <div class="tags" aria-label="標籤">
+                <span class="tag">前端</span>
+                <span class="tag">儀表板</span>
+                <span class="tag">互動</span>
+                <span class="tag">RWD</span>
+              </div>
+              <h3 class="evidence-title">可互動報表儀表板（純前端）</h3>
+              <p class="lead">
+                用純 HTML/CSS/JS 做可篩選的報表表格與 KPI，展示資訊層級整理與 UI 呈現能力。
+              </p>
+              <ul class="bullets">
+                <li>重點：可掃讀、可操作、響應式</li>
+                <li>產出：`projects/dashboard/index.html`</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn" href="./projects/dashboard/index.html">開啟儀表板</a>
+                <a class="btn secondary" href="./projects/sql-report/README.md">搭配 SQL 作品</a>
+              </div>
+            </section>
+
+            <section class="evidence" id="erp-flow">
+              <p class="meta">作品｜ERP（流程設計）</p>
+              <div class="tags" aria-label="標籤">
+                <span class="tag">ERP</span>
+                <span class="tag">流程</span>
+                <span class="tag">P2P</span>
+                <span class="tag">Mermaid</span>
+              </div>
+              <h3 class="evidence-title">P2P：採購到入庫流程整理</h3>
+              <p class="lead">
+                用「角色/狀態/資料」方式整理 ERP 流程，並用 Mermaid 畫出可驗收的流程圖與報表指標。
+              </p>
+              <ul class="bullets">
+                <li>重點：流程節點、權責、單據狀態、報表</li>
+                <li>產出：`flow.md`（含流程圖）</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn" href="./projects/erp-flow/index.html">開啟作品</a>
+                <a class="btn secondary" href="./projects/erp-flow/README.md">閱讀說明</a>
+              </div>
+            </section>
+
+            <section class="evidence" id="db-erd">
+              <p class="meta">作品｜資料庫（ERD + 報表）</p>
+              <div class="tags" aria-label="標籤">
+                <span class="tag">ERD</span>
+                <span class="tag">SQLite</span>
+                <span class="tag">正規化</span>
+                <span class="tag">查詢</span>
+              </div>
+              <h3 class="evidence-title">ERD + SQLite：簽核領用與庫存</h3>
+              <p class="lead">
+                用 ERD 描述資料關聯，並提供可跑的 SQLite schema + 報表查詢（庫存、排行、核准耗時）。
+              </p>
+              <ul class="bullets">
+                <li>重點：正規化、關聯、可追溯事件表</li>
+                <li>產出：`erd.md`、`schema.sql`、`queries.sql`</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn" href="./projects/db-erd/index.html">開啟作品</a>
+                <a class="btn secondary" href="./projects/db-erd/erd.md">看 ERD（md）</a>
+              </div>
+            </section>
+
+            <section class="evidence" id="approval-demo">
+              <p class="meta">作品｜前端（流程 Demo）</p>
+              <div class="tags" aria-label="標籤">
+                <span class="tag">狀態機</span>
+                <span class="tag">流程</span>
+                <span class="tag">localStorage</span>
+                <span class="tag">互動</span>
+              </div>
+              <h3 class="evidence-title">簽核流程 Demo（localStorage）</h3>
+              <p class="lead">
+                用前端把「狀態流轉」做成可操作：建立申請、核准/退回、狀態更新，資料保存在本機。
+              </p>
+              <ul class="bullets">
+                <li>重點：狀態機、互動、可展示流程</li>
+                <li>產出：`projects/approval-demo/index.html`</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn" href="./projects/approval-demo/index.html">開啟 Demo</a>
+                <a class="btn secondary" href="./projects/spec/spec.md">搭配規格</a>
+              </div>
+            </section>
+
+            <section class="evidence" id="site">
+              <p class="meta">作品｜前端/呈現</p>
+              <div class="tags" aria-label="標籤">
+                <span class="tag">資訊架構</span>
+                <span class="tag">多頁</span>
+                <span class="tag">一致版型</span>
+                <span class="tag">動線</span>
+              </div>
+              <h3 class="evidence-title">個人網站（本網站）</h3>
+              <p class="lead">
+                以求職與作品集為目標，整理資訊層級、導覽動線與可掃讀版面，並加入滑動進場效果提升閱讀體驗。
+              </p>
+              <ul class="bullets">
+                <li>目標：3 秒理解我、30 秒看到證據、1 分鐘找到聯絡方式</li>
+                <li>做法：多頁結構 + 一致版型 + 行動導向 CTA</li>
+                <li>技術：HTML / CSS / JavaScript（響應式 + IntersectionObserver）</li>
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Next</p>
+            <h2 class="section-title">想看更完整的版本？</h2>
+            <p class="section-desc">我可以把每個項目補上：使用工具、產出截圖、學到什麼與下一步改善。</p>
+          </div>
+          <div class="btn-row" style="justify-content: flex-start">
+            <a class="btn" href="./resume.html">看履歷</a>
+            <a class="btn secondary" href="mailto:alice2005921@gmail.com">Email 聯絡我</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="small">© <span id="y"></span> 李羿慧</div>
+        <div class="small">Email：alice2005921@gmail.com</div>
+      </div>
+      <script>
+        document.getElementById("y").textContent = String(new Date().getFullYear());
+      </script>
+    </footer>
+  </body>
+</html>

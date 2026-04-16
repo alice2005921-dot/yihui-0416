@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>簽核流程 Demo｜前端作品（localStorage）</title>
+    <link rel="stylesheet" href="../../styles.css" />
+    <style>
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-top: 18px;
+        align-items: start;
+      }
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      label {
+        display: grid;
+        gap: 6px;
+        font-size: 0.95rem;
+        color: rgba(0, 0, 0, 0.68);
+      }
+      input,
+      textarea,
+      select {
+        padding: 10px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: rgba(255, 255, 255, 0.92);
+        font-size: 1rem;
+      }
+      textarea {
+        min-height: 96px;
+        resize: vertical;
+      }
+      .status {
+        display: inline-flex;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        font-size: 0.9rem;
+        font-weight: 650;
+        color: rgba(0, 0, 0, 0.8);
+      }
+      .status.approved {
+        background: rgba(0, 113, 227, 0.1);
+        border-color: rgba(0, 113, 227, 0.18);
+      }
+      .status.rejected {
+        background: rgba(0, 0, 0, 0.06);
+        border-color: rgba(0, 0, 0, 0.14);
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .items {
+        margin-top: 12px;
+        display: grid;
+        gap: 10px;
+      }
+      .item {
+        display: grid;
+        grid-template-columns: 1fr 110px 90px;
+        gap: 10px;
+        align-items: center;
+      }
+      @media (max-width: 520px) {
+        .item {
+          grid-template-columns: 1fr;
+        }
+      }
+      .mini {
+        font-size: 0.92rem;
+        color: rgba(0, 0, 0, 0.62);
+      }
+      .listbox {
+        display: grid;
+        gap: 12px;
+      }
+      .cardish {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 18px;
+        padding: 14px;
+      }
+      .muted {
+        color: rgba(0, 0, 0, 0.6);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <h1 class="page-title">簽核流程 Demo</h1>
+        <p class="section-desc">
+          這個作品示範「需求→流程→狀態」如何落地成可操作介面。資料會存在本機
+          <span class="status">localStorage</span>，重整頁面也不會消失。
+        </p>
+
+        <div class="grid">
+          <section class="panel">
+            <h3 class="panel-title">建立領用申請</h3>
+            <div class="items" id="form">
+              <label>
+                部門
+                <select id="dept">
+                  <option value="行政部">行政部</option>
+                  <option value="資訊部">資訊部</option>
+                  <option value="設計部">設計部</option>
+                </select>
+              </label>
+              <label>
+                申請用途
+                <textarea id="reason" placeholder="例如：新進同仁設備、活動耗材等"></textarea>
+              </label>
+
+              <div class="row">
+                <div class="mini">申請明細</div>
+                <button class="btn secondary" id="addItem">新增一筆明細</button>
+              </div>
+              <div id="items" class="items"></div>
+
+              <div class="btn-row" style="justify-content: flex-start">
+                <button class="btn" id="submit">送出申請</button>
+                <button class="btn secondary" id="reset">清空表單</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel callout">
+            <div class="row">
+              <h3 class="panel-title" style="margin: 0">待辦與狀態</h3>
+              <button class="btn secondary" id="clearAll">清空全部資料</button>
+            </div>
+            <p class="caption" style="text-align: left; margin-top: 10px">
+              你可以把每張申請單「核准/退回」，觀察狀態流轉。
+            </p>
+            <div class="listbox" id="list" style="margin-top: 12px"></div>
+          </section>
+        </div>
+
+        <div class="btn-row" style="justify-content: flex-start; margin-top: 18px">
+          <a class="btn" href="../../projects.html">回作品/專題</a>
+          <a class="btn secondary" href="../spec/spec.md">看規格文件</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const STORAGE_KEY = "approval-demo:v1";
+
+      const catalog = [
+        { sku: "MS-010", name: "無線滑鼠" },
+        { sku: "KB-001", name: "機械鍵盤 87 鍵" },
+        { sku: "HB-200", name: "USB Hub 8 埠" },
+        { sku: "CM-110", name: "螢幕 27 吋" },
+      ];
+
+      function load() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return [];
+          const parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed)) return [];
+          return parsed;
+        } catch {
+          return [];
+        }
+      }
+
+      function save(requests) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(requests));
+      }
+
+      function uid() {
+        return Math.floor(Date.now() / 10).toString(36);
+      }
+
+      const el = {
+        dept: document.getElementById("dept"),
+        reason: document.getElementById("reason"),
+        items: document.getElementById("items"),
+        addItem: document.getElementById("addItem"),
+        submit: document.getElementById("submit"),
+        reset: document.getElementById("reset"),
+        list: document.getElementById("list"),
+        clearAll: document.getElementById("clearAll"),
+      };
+
+      function itemRow(initial = { sku: "MS-010", qty: 1 }) {
+        const wrap = document.createElement("div");
+        wrap.className = "item cardish";
+
+        const sku = document.createElement("select");
+        catalog.forEach((p) => {
+          const opt = document.createElement("option");
+          opt.value = p.sku;
+          opt.textContent = `${p.sku}｜${p.name}`;
+          sku.appendChild(opt);
+        });
+        sku.value = initial.sku;
+
+        const qty = document.createElement("input");
+        qty.type = "number";
+        qty.min = "1";
+        qty.value = String(initial.qty ?? 1);
+
+        const del = document.createElement("button");
+        del.className = "btn secondary";
+        del.type = "button";
+        del.textContent = "刪除";
+        del.addEventListener("click", () => wrap.remove());
+
+        wrap.appendChild(sku);
+        wrap.appendChild(qty);
+        wrap.appendChild(del);
+        return wrap;
+      }
+
+      function getFormItems() {
+        const rows = [...el.items.querySelectorAll(".item")];
+        return rows
+          .map((r) => {
+            const sku = r.querySelector("select")?.value;
+            const qty = Number(r.querySelector('input[type="number"]')?.value);
+            if (!sku || !Number.isFinite(qty) || qty <= 0) return null;
+            return { sku, qty };
+          })
+          .filter(Boolean);
+      }
+
+      function badge(status) {
+        const cls =
+          status === "APPROVED"
+            ? "status approved"
+            : status === "REJECTED"
+              ? "status rejected"
+              : "status";
+        return `<span class="${cls}">${status}</span>`;
+      }
+
+      function render() {
+        const requests = load();
+        if (requests.length === 0) {
+          el.list.innerHTML = `<div class="cardish muted">目前沒有資料。先建立一張申請單試試看。</div>`;
+          return;
+        }
+
+        el.list.innerHTML = requests
+          .slice()
+          .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+          .map((r) => {
+            const items = r.items
+              .map((it) => {
+                const p = catalog.find((x) => x.sku === it.sku);
+                return `${it.sku}｜${p ? p.name : ""} × ${it.qty}`;
+              })
+              .join("<br/>");
+
+            const actions =
+              r.status === "PENDING_APPROVAL"
+                ? `<div class="btn-row" style="justify-content:flex-start;margin-top:10px">
+                    <button class="btn" data-act="approve" data-id="${r.id}">核准</button>
+                    <button class="btn secondary" data-act="reject" data-id="${r.id}">退回</button>
+                  </div>`
+                : "";
+
+            const comment = r.comment
+              ? `<div class="caption" style="text-align:left;margin-top:8px">主管意見：${r.comment}</div>`
+              : "";
+
+            return `<div class="cardish">
+              <div class="row">
+                <div>
+                  <strong>申請單 #${r.id}</strong>
+                  <span class="caption" style="margin-left:8px">部門：${r.dept}</span>
+                </div>
+                ${badge(r.status)}
+              </div>
+              <div class="caption" style="text-align:left;margin-top:8px">用途：${r.reason}</div>
+              <div class="caption" style="text-align:left;margin-top:8px">明細：<br/>${items}</div>
+              ${comment}
+              ${actions}
+            </div>`;
+          })
+          .join("");
+      }
+
+      function resetForm() {
+        el.dept.value = "行政部";
+        el.reason.value = "";
+        el.items.innerHTML = "";
+        el.items.appendChild(itemRow());
+      }
+
+      el.addItem.addEventListener("click", (e) => {
+        e.preventDefault();
+        el.items.appendChild(itemRow());
+      });
+
+      el.reset.addEventListener("click", (e) => {
+        e.preventDefault();
+        resetForm();
+      });
+
+      el.submit.addEventListener("click", (e) => {
+        e.preventDefault();
+        const reason = el.reason.value.trim();
+        const items = getFormItems();
+        if (!reason) {
+          alert("請先填寫申請用途。");
+          return;
+        }
+        if (items.length === 0) {
+          alert("請至少新增一筆明細。");
+          return;
+        }
+
+        const requests = load();
+        requests.push({
+          id: uid(),
+          dept: el.dept.value,
+          reason,
+          items,
+          status: "PENDING_APPROVAL",
+          comment: "",
+          createdAt: new Date().toISOString(),
+        });
+        save(requests);
+        resetForm();
+        render();
+      });
+
+      el.clearAll.addEventListener("click", () => {
+        if (!confirm("確定要清空全部資料嗎？")) return;
+        save([]);
+        render();
+      });
+
+      el.list.addEventListener("click", (e) => {
+        const target = e.target;
+        if (!(target instanceof HTMLElement)) return;
+        const act = target.getAttribute("data-act");
+        const id = target.getAttribute("data-id");
+        if (!act || !id) return;
+
+        const requests = load();
+        const idx = requests.findIndex((r) => r.id === id);
+        if (idx < 0) return;
+        const r = requests[idx];
+
+        if (act === "approve") {
+          r.status = "APPROVED";
+          r.comment = "已核准，請倉管安排。";
+        } else if (act === "reject") {
+          const reason = prompt("退回原因（可留空）", "請補用途/數量理由");
+          r.status = "REJECTED";
+          r.comment = reason ? String(reason) : "";
+        }
+
+        requests[idx] = r;
+        save(requests);
+        render();
+      });
+
+      resetForm();
+      render();
+    </script>
+  </body>
+</html>
+

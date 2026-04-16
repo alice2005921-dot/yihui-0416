@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ERP 流程設計作品｜P2P</title>
+    <link rel="stylesheet" href="../../styles.css" />
+    <script defer src="../../site.js"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "neutral",
+      });
+    </script>
+    <style>
+      .doc {
+        margin-top: 18px;
+      }
+      .mermaid {
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 24px;
+        padding: 16px;
+        overflow: auto;
+      }
+      code,
+      pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-left">
+        <div class="logo">YI HUI 個人網站</div>
+        <div class="page-indicator">ERP 流程作品</div>
+      </div>
+      <nav class="top-nav" aria-label="主要導覽">
+        <a href="../../index.html">首頁</a>
+        <a href="../../projects.html" aria-current="page">作品/專題</a>
+        <a href="../../resume.html">履歷</a>
+      </nav>
+      <div class="header-right">
+        <button class="menu-btn" data-action="toggle-menu" aria-label="開啟選單">
+          MENU ☰
+        </button>
+      </div>
+    </header>
+
+    <nav class="overlay" id="navOverlay" aria-label="網站導覽">
+      <button class="close-btn" data-action="close-menu" aria-label="關閉選單">
+        ×
+      </button>
+      <ul class="nav-list">
+        <li><a href="../../index.html">首頁</a></li>
+        <li><a href="../../projects.html" aria-current="page">作品/專題</a></li>
+        <li><a href="../../resume.html">履歷</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="container">
+        <h1 class="page-title">採購到入庫（P2P）</h1>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Goal</p>
+            <h2 class="section-title">我想展示什麼能力</h2>
+            <p class="section-desc">
+              把 ERP 流程拆成「角色/狀態/資料」，並能被驗收；同時能從流程推導出管理報表指標。
+            </p>
+          </div>
+          <div class="split">
+            <section class="panel callout">
+              <h3 class="panel-title">流程目標</h3>
+              <ul class="list">
+                <li><span>讓採購需求可追溯、可核准、可入庫</span></li>
+                <li><span>讓「誰提出、誰核准、誰收貨」清楚分工</span></li>
+                <li><span>讓 PR → PO → GRN 資料一致串起來</span></li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">角色與權限（簡化）</h3>
+              <ul class="list">
+                <li><span><strong>請購人</strong>：建立/送出/取消（未核准前）</span></li>
+                <li><span><strong>主管</strong>：核准/退回</span></li>
+                <li><span><strong>採購</strong>：建立 PO、選供應商、議價</span></li>
+                <li><span><strong>倉管</strong>：收貨、驗收、入庫</span></li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">作品原始文件</h3>
+              <ul class="list">
+                <li><span><a href="./flow.md">`flow.md`（完整整理）</a></span></li>
+                <li><span><a href="../spec/spec.md">搭配：需求規格（簽核/庫存）</a></span></li>
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="section doc">
+          <div class="section-header">
+            <p class="kicker">Flow</p>
+            <h2 class="section-title">流程圖（可直接展示）</h2>
+            <p class="section-desc">Mermaid 直接渲染，讓流程在網站上就是成品。</p>
+          </div>
+
+          <pre class="mermaid">
+flowchart TD
+  A[請購人：建立請購單 PR] --> B[送出 PR]
+  B --> C{主管審核}
+  C -- 退回 --> D[PR 狀態：REJECTED\n填寫原因] --> A
+  C -- 核准 --> E[PR 狀態：APPROVED]
+  E --> F[採購：建立採購單 PO\n選供應商/價格/交期]
+  F --> G[送出 PO]
+  G --> H{到貨？}
+  H -- 否 --> I[等待/追蹤交期]
+  I --> H
+  H -- 是 --> J[倉管：收貨 GRN]
+  J --> K{驗收結果}
+  K -- 不合格 --> L[退貨/換貨\n建立退貨單]
+  K -- 合格 --> M[入庫：Stock IN\n更新庫存]
+  M --> N[完成：可對帳/可報表]
+          </pre>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Deliverables</p>
+            <h2 class="section-title">單據與狀態（可驗收）</h2>
+            <p class="section-desc">把流程落地時最怕「狀態亂跳」。我用狀態機方式整理。</p>
+          </div>
+          <div class="split">
+            <section class="panel">
+              <h3 class="panel-title">PR（請購單）</h3>
+              <ul class="list">
+                <li><span>狀態：DRAFT → PENDING_APPROVAL → APPROVED / REJECTED / CANCELLED</span></li>
+                <li><span>欄位：請購人/部門/需求日/用途/明細（品項、數量、預算）</span></li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">PO（採購單）</h3>
+              <ul class="list">
+                <li><span>狀態：DRAFT → SENT → PARTIALLY_RECEIVED / RECEIVED / CANCELLED</span></li>
+                <li><span>欄位：供應商/交期/單價/付款條件/明細</span></li>
+              </ul>
+            </section>
+            <section class="panel">
+              <h3 class="panel-title">GRN（收貨單）</h3>
+              <ul class="list">
+                <li><span>狀態：CREATED → QC_PASSED / QC_FAILED</span></li>
+                <li><span>欄位：到貨數量/驗收結果/短溢到貨原因/倉別</span></li>
+              </ul>
+            </section>
+          </div>
+
+          <div class="btn-row" style="justify-content: flex-start; margin-top: 18px">
+            <a class="btn" href="../../projects.html">回作品/專題</a>
+            <a class="btn secondary" href="../../index.html">回首頁</a>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
+

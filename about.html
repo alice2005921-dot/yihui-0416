@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>李羿慧｜個人簡介</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./site.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-left">
+        <div class="logo">YI HUI 個人網站</div>
+        <div class="page-indicator">個人簡介</div>
+      </div>
+
+      <nav class="top-nav" aria-label="主要導覽">
+        <a href="./index.html">首頁</a>
+        <a href="./about.html" aria-current="page">個人簡介</a>
+        <a href="./projects.html">作品/專題</a>
+        <a href="./test.html">測驗結果</a>
+        <a href="./mis.html">MIS 分析</a>
+        <a href="./resume.html">履歷</a>
+      </nav>
+
+      <div class="header-right">
+        <button class="menu-btn" data-action="toggle-menu" aria-label="開啟選單">
+          MENU ☰
+        </button>
+      </div>
+    </header>
+
+    <nav class="overlay" id="navOverlay" aria-label="網站導覽">
+      <button class="close-btn" data-action="close-menu" aria-label="關閉選單">
+        ×
+      </button>
+      <ul class="nav-list">
+        <li><a href="./index.html">首頁</a></li>
+        <li><a href="./about.html" aria-current="page">個人簡介</a></li>
+        <li><a href="./projects.html">作品/專題</a></li>
+        <li><a href="./test.html">我的測驗結果</a></li>
+        <li><a href="./mis.html">MIS 工作分析</a></li>
+        <li><a href="./resume.html">求職履歷</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="container">
+        <h1 class="page-title">個人簡介</h1>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Overview</p>
+            <h2 class="section-title">一句話介紹</h2>
+            <p class="section-desc">
+              以系統化思維整理資訊、以使用者角度調整呈現；目前聚焦在 ERP 流程理解與資料庫基礎。
+            </p>
+          </div>
+
+          <div class="stack">
+            <section class="evidence">
+              <h3 class="evidence-title">基本資料</h3>
+              <ul class="bullets" aria-label="基本資料">
+                <li><strong>姓名</strong>：李羿慧</li>
+                <li><strong>系級</strong>：資管二 B</li>
+                <li><strong>學號</strong>：411312414</li>
+                <li><strong>信箱</strong>：alice2005921@gmail.com</li>
+              </ul>
+              <div class="pill-row" aria-label="關鍵特質" style="margin-top: 10px">
+                <span class="pill">細膩邏輯</span>
+                <span class="pill">數位創意</span>
+                <span class="pill">系統思維</span>
+              </div>
+            </section>
+
+            <section class="evidence">
+              <h3 class="evidence-title">目前學習</h3>
+              <ul class="bullets" aria-label="目前學習">
+                <li>ERP 流程概念（採購／庫存／財會）與系統化需求理解</li>
+                <li>資料庫基礎與 SQL（查詢、資料一致性、基本效能概念）</li>
+                <li>把資訊整理成清楚的頁面與報表呈現（可讀性／使用性）</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn" href="./resume.html">看履歷</a>
+                <a class="btn secondary" href="./mis.html">看 MIS 分析</a>
+              </div>
+            </section>
+
+            <section class="callout">
+              <h3 class="evidence-title">自我介紹</h3>
+              <div class="intro-split" style="margin-top: 10px">
+                <div>
+                  <p class="lead">
+                    我是李羿慧，目前就讀資管系，結合「細膩邏輯」與「數位創意」的學習者。在
+                    Holland 測驗中具備 C 與 A 的雙重特質，擅長在規律的系統架構中找尋創新的解決方案。
+                    目前正致力於深耕 ERP 系統流程與資料庫管理技術，期許能成為企業數位轉型的關鍵助力。
+                  </p>
+                  <ul class="bullets" aria-label="個人特色" style="margin-top: 10px">
+                    <li>偏好清楚流程與規則，做事重視正確性與一致性</li>
+                    <li>喜歡把複雜資訊整理成容易理解的呈現方式</li>
+                  </ul>
+                </div>
+
+                <figure class="photo-card" aria-label="個人照片">
+                  <img src="./assets/簡介照片.jpg" alt="李羿慧照片" class="about-photo" />
+                </figure>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Strengths</p>
+            <h2 class="section-title">我做事的方式</h2>
+            <p class="section-desc">用可交付的方式做事：清楚、可追蹤、可驗收。</p>
+          </div>
+          <div class="stack">
+            <section class="evidence">
+              <h3 class="evidence-title">需求釐清</h3>
+              <ul class="bullets">
+                <li>先確認目標與使用者，再拆流程與資料</li>
+                <li>把「想要」轉成「規格」：輸入/輸出、例外、驗收</li>
+              </ul>
+            </section>
+            <section class="evidence">
+              <h3 class="evidence-title">資料正確性</h3>
+              <ul class="bullets">
+                <li>重視欄位定義、條件邏輯與一致性</li>
+                <li>用測試案例/範例資料驗證結果是否符合預期</li>
+              </ul>
+            </section>
+            <section class="evidence">
+              <h3 class="evidence-title">呈現與溝通</h3>
+              <ul class="bullets">
+                <li>用層級、列點與圖表降低閱讀成本</li>
+                <li>把複雜內容拆成可掃讀區塊，讓決策更快</li>
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Next</p>
+            <h2 class="section-title">延伸閱讀</h2>
+            <p class="section-desc">從測驗結果與職務分析開始，快速理解我的興趣與方向。</p>
+          </div>
+          <div class="stack">
+            <section class="evidence">
+              <h3 class="evidence-title">Holland 測驗</h3>
+              <ul class="bullets">
+                <li>了解我的特質組合（C / A）與偏好環境</li>
+                <li>看見我對「規則」與「創意」的平衡</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn" href="./test.html">前往測驗結果</a>
+              </div>
+            </section>
+            <section class="evidence">
+              <h3 class="evidence-title">MIS 工作分析</h3>
+              <ul class="bullets">
+                <li>拆解 MIS 的職務內容與角色分工</li>
+                <li>整理我感興趣的職位方向（ERP / DB / 後端）</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn secondary" href="./mis.html">前往 MIS 分析</a>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="small">© <span id="y"></span> 李羿慧</div>
+        <div class="small"><a href="./index.html">回首頁</a></div>
+      </div>
+      <script>
+        document.getElementById("y").textContent = String(new Date().getFullYear());
+      </script>
+    </footer>
+  </body>
+</html>

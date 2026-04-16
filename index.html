@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>李羿慧｜個人網站</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./site.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-left">
+        <div class="logo">YI HUI 個人網站</div>
+        <div class="page-indicator">首頁</div>
+      </div>
+
+      <nav class="top-nav" aria-label="主要導覽">
+        <a href="./index.html" aria-current="page">首頁</a>
+        <a href="./about.html">個人簡介</a>
+        <a href="./projects.html">作品/專題</a>
+        <a href="./test.html">測驗結果</a>
+        <a href="./mis.html">MIS 分析</a>
+        <a href="./resume.html">履歷</a>
+      </nav>
+
+      <div class="header-right">
+        <button class="menu-btn" data-action="toggle-menu" aria-label="開啟選單">
+          MENU ☰
+        </button>
+      </div>
+    </header>
+
+    <nav class="overlay" id="navOverlay" aria-label="網站導覽">
+      <button class="close-btn" data-action="close-menu" aria-label="關閉選單">
+        ×
+      </button>
+      <ul class="nav-list">
+        <li><a href="./index.html" aria-current="page">首頁</a></li>
+        <li><a href="./about.html">個人簡介</a></li>
+        <li><a href="./projects.html">作品/專題</a></li>
+        <li><a href="./test.html">我的測驗結果</a></li>
+        <li><a href="./mis.html">MIS 工作分析</a></li>
+        <li><a href="./resume.html">求職履歷</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="container">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="hero-eyebrow">資管系學生｜MIS / ERP / 資料庫方向</p>
+            <h1 class="hero-title page-title">李羿慧</h1>
+            <p class="hero-subtitle">
+              我把「結構化的系統思維」與「重視體驗的呈現方式」結合起來，持續累積對企業流程與資訊系統的理解。
+            </p>
+
+            <div class="btn-row hero-cta">
+              <a class="btn" href="./resume.html">查看履歷</a>
+              <a class="btn secondary" href="mailto:alice2005921@gmail.com">Email 聯絡</a>
+            </div>
+
+            <p class="hero-note">
+              想快速了解我做過什麼？先看 <a href="./projects.html">作品/專題</a>。
+            </p>
+          </div>
+
+          <div class="hero-media">
+            <div class="hero-photo" aria-label="個人照片">
+              <img src="./assets/簡介照片.jpg" alt="李羿慧照片" loading="eager" />
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Proof</p>
+            <h2 class="section-title">我做過的事情（快速證據）</h2>
+            <p class="section-desc">
+              讓你不用猜：我把成果整理成「目標→做法→成果」，可以快速掃讀與判斷是否符合職務需求。
+            </p>
+          </div>
+          <div class="stack">
+            <section class="evidence">
+              <p class="meta">作品｜流程</p>
+              <h3 class="evidence-title">ERP 流程整理</h3>
+              <p class="lead">把流程、資料流與權限概念整理成可展示的頁面。</p>
+              <ul class="bullets">
+                <li>把「流程」拆成角色、狀態、資料欄位，讓內容可驗收</li>
+                <li>用一致結構呈現（目的 → 步驟 → 產出），讓人能快速掃讀</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn secondary" href="./projects.html">看作品/專題</a>
+              </div>
+            </section>
+
+            <section class="evidence">
+              <p class="meta">練習｜資料庫</p>
+              <h3 class="evidence-title">SQL 查詢框架</h3>
+              <p class="lead">用一致的解題步驟提升查詢正確性與可讀性。</p>
+              <ul class="bullets">
+                <li>先定義輸出欄位，再決定 JOIN/條件/分組（減少漏寫）</li>
+                <li>偏好可重用模板：命名、拆段與註解一致</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn secondary" href="./projects.html">看整理</a>
+              </div>
+            </section>
+
+            <section class="evidence">
+              <p class="meta">報告｜職務理解</p>
+              <h3 class="evidence-title">MIS 角色分析</h3>
+              <p class="lead">把面向、角色與技能拆解成可掃讀的重點。</p>
+              <ul class="bullets">
+                <li>用「穩定/安全/效率」整理 MIS 價值，不用背定義</li>
+                <li>把職位拆成常見工作面向，讓方向更具體</li>
+              </ul>
+              <div class="btn-row" style="justify-content: flex-start; margin-top: 10px">
+                <a class="btn secondary" href="./mis.html">看分析</a>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Direction</p>
+            <h2 class="section-title">我想走的方向</h2>
+            <p class="section-desc">我把興趣與職務拆解後，聚焦在三個能長期累積的方向。</p>
+          </div>
+          <div class="stack">
+            <section class="evidence">
+              <h3 class="evidence-title">ERP / 流程</h3>
+              <ul class="bullets">
+                <li>理解企業流程，讓需求能落地成系統設定/功能</li>
+                <li>重視資料一致性、權限與跨模組串接</li>
+              </ul>
+            </section>
+            <section class="evidence">
+              <h3 class="evidence-title">資料庫 / SQL</h3>
+              <ul class="bullets">
+                <li>用結構化方式寫查詢，讓報表需求更可控</li>
+                <li>關注效能與正確性，建立可複用的模板</li>
+              </ul>
+            </section>
+            <section class="evidence">
+              <h3 class="evidence-title">MIS / 系統維運</h3>
+              <ul class="bullets">
+                <li>理解角色分工與維運重點，讓系統能穩定運作</li>
+                <li>把問題拆解、定位原因並提出可行的改善方案</li>
+              </ul>
+            </section>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <p class="kicker">Contact</p>
+            <h2 class="section-title">聯絡我</h2>
+            <p class="section-desc">如果你想了解更完整的作品細節或合作方式，歡迎直接聯絡。</p>
+          </div>
+          <section class="callout">
+            <div class="btn-row" style="justify-content: flex-start">
+              <a class="btn" href="mailto:alice2005921@gmail.com">寄信給我</a>
+              <a class="btn secondary" href="./resume.html">查看履歷</a>
+            </div>
+            <p class="caption" style="text-align: left; margin-top: 10px">
+              Email：alice2005921@gmail.com
+            </p>
+          </section>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="small">© <span id="y"></span> 李羿慧</div>
+        <div class="small">Email：alice2005921@gmail.com</div>
+      </div>
+      <script>
+        document.getElementById("y").textContent = String(new Date().getFullYear());
+      </script>
+    </footer>
+  </body>
+</html>
